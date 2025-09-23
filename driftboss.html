@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>History Center</title>
+  <style>
+    :root {
+      --bg-dark: #1c1c1c;
+      --bg-card: #2a2a2a;
+      --bg-header: #262626;
+      --bg-nav: #1a1a1a;
+      --text-light: #f5f5f5;
+      --text-muted: #bbb;
+      --accent: #7ec850;
+      --accent-hover: #91e164;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--bg-header);
+      padding: 30px 20px 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: var(--accent);
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 1em;
+      color: var(--text-muted);
+    }
+
+    nav {
+      background-color: var(--bg-nav);
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .layout {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: var(--bg-dark);
+      padding: 20px 5vw;
+      box-sizing: border-box;
+    }
+
+    .ad-bar {
+      width: 160px;
+      background-color: #111;
+      padding: 10px;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .ad {
+      background-color: #333;
+      border: 1px solid #555;
+      padding: 0;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 0.9em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 600px;
+    }
+
+    .main-content {
+      flex: 1;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 200px);
+      margin: 0 20px;
+    }
+
+    .top-banner-ad {
+      width: 100%;
+      height: 90px;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .top-banner-ad iframe {
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Fixed styles for embedded game container - Full size iframe */
+    .game-embed-container {
+      flex: 1;
+      background-color: #274e13;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: stretch;
+      box-sizing: border-box;
+      color: #fff;
+      text-align: center;
+      font-family: fantasy;
+      padding: 0;
+      min-height: 500px;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Ensure the game embed takes full space */
+    .game-embed-container > * {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+    }
+
+    .game-embed-container #fr {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    .game-embed-container iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+      border-radius: 8px;
+      flex: 1;
+    }
+
+    /* Updated button styles to match your embed */
+    .game-embed-container .c-button {
+      min-width: 100%;
+      font-family: fantasy;
+      appearance: auto;
+      border: 0;
+      border-color: #fff;
+      border-radius: 5px;
+      background: #274e13;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      margin: 0;
+      flex-shrink: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+
+    .game-embed-container .c-button:hover {
+      background: #6aa84f;
+    }
+
+    .game-embed-container .c-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px #cbd6ee;
+    }
+
+    footer {
+      background-color: #181818;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+      border-top: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .ad-bar {
+        display: none;
+      }
+      .layout {
+        flex-direction: column;
+        padding: 10px 2vw;
+      }
+      .main-content {
+        margin: 0;
+        min-height: 400px;
+      }
+      
+      .game-embed-container .c-button {
+        font-size: 24px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .game-embed-container .c-button {
+        font-size: 20px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>History Center Unblocked Games Hub</h1>
+    <p>Play your favorite games anytime, anywhere</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <div class="layout">
+
+    <aside class="ad-bar left-ad">
+      <div class="ad">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js"></script>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-banner-ad">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '9717bb3a63d1343429ea100cc8cf8b58',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/9717bb3a63d1343429ea100cc8cf8b58/invoke.js"></script>
+      </div>
+
+      <div id="gameContainer" class="game-embed-container">
+        <!-- PASTE YOUR GAME EMBED CODE HERE (without <html>, <head>, and <body> tags) -->
+        <!-- Just paste the content between your game's <body> tags -->
+        <body data-new-gr-c-s-check-loaded="14.1254.0" data-gr-ext-installed=""><div id="fr" data="&lt;iframe width=&quot;100%&quot; height=&quot;100%&quot; src=&quot;https://script.google.com/macros/s/AKfycbwAOi2tPbjzeWDkigfZMIPEGubYxz2la_qjxJyydNZyjwgbqsv9mv05g7tdmLHdvdaw/exec&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;">
+</div><button class="c-button" type="button" onclick="PlayTo(this)">Play on History Center</button>
+<style>
+.c-button {
+  min-width: 100%;
+  font-family: fantasy;
+  appearance: auto;
+  border: 0;
+  border-color: #fff;
+  border-radius: 5px;
+  background: #274e13;
+  color: #fff;
+
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.c-button:hover {
+  background: #6aa84f;
+}
+
+.c-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #cbd6ee;
+}
+  
+ .c-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+</style>
+
+<script>
+function PlayTo(sel){
+  var div = sel.previousSibling;
+  div.innerHTML=div.getAttribute('data');
+  sel.style.display = "none";
+}
+</script></body>
+
+
+
+        
+        
+      </div>
+    </main>
+
+    <aside class="ad-bar right-ad">
+      <div class="ad">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js"></script>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer>
+    &copy; 2025 History Center | All rights reserved.
+  </footer>
+
+  <!-- Auto-refresh script for ads only -->
+  <script>
+    function refreshAdsOnly() {
+      // Create new ad containers with fresh timestamps
+      const leftAd = document.querySelector('.left-ad .ad');
+      const rightAd = document.querySelector('.right-ad .ad');
+      const topBanner = document.querySelector('.top-banner-ad');
+      
+      // Refresh left sidebar ad
+      if (leftAd) {
+        leftAd.innerHTML = '';
+        const leftScript1 = document.createElement('script');
+        leftScript1.innerHTML = `
+          atOptions = {
+            'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        `;
+        const leftScript2 = document.createElement('script');
+        leftScript2.src = `//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js?t=${Date.now()}`;
+        leftAd.appendChild(leftScript1);
+        leftAd.appendChild(leftScript2);
+      }
+
+      // Refresh right sidebar ad (small delay to prevent conflicts)
+      setTimeout(() => {
+        if (rightAd) {
+          rightAd.innerHTML = '';
+          const rightScript1 = document.createElement('script');
+          rightScript1.innerHTML = `
+            atOptions = {
+              'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+              'format' : 'iframe',
+              'height' : 600,
+              'width' : 160,
+              'params' : {}
+            };
+          `;
+          const rightScript2 = document.createElement('script');
+          rightScript2.src = `//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js?t=${Date.now()}`;
+          rightAd.appendChild(rightScript1);
+          rightAd.appendChild(rightScript2);
+        }
+      }, 500);
+
+      // Refresh top banner ad (larger delay)
+      setTimeout(() => {
+        if (topBanner) {
+          topBanner.innerHTML = '';
+          const topScript1 = document.createElement('script');
+          topScript1.innerHTML = `
+            atOptions = {
+              'key' : '9717bb3a63d1343429ea100cc8cf8b58',
+              'format' : 'iframe',
+              'height' : 90,
+              'width' : 728,
+              'params' : {}
+            };
+          `;
+          const topScript2 = document.createElement('script');
+          topScript2.src = `//www.highperformanceformat.com/9717bb3a63d1343429ea100cc8cf8b58/invoke.js?t=${Date.now()}`;
+          topBanner.appendChild(topScript1);
+          topBanner.appendChild(topScript2);
+        }
+      }, 1000);
+      
+      console.log('Ads refreshed at:', new Date().toLocaleTimeString());
+    }
+
+    // Refresh ads every 30 seconds (30000 milliseconds)
+    setTimeout(() => {
+      setInterval(refreshAdsOnly, 30000);
+      console.log('Ad refresh cycle started - ads will refresh every 30 seconds');
+    }, 5000); // Wait 5 seconds after initial load before starting the refresh cycle
+  </script>
+
+</body>
+</html>

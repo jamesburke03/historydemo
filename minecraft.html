@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>History Center</title>
+  <style>
+    :root {
+      --bg-dark: #1c1c1c;
+      --bg-card: #2a2a2a;
+      --bg-header: #262626;
+      --bg-nav: #1a1a1a;
+      --text-light: #f5f5f5;
+      --text-muted: #bbb;
+      --accent: #7ec850;
+      --accent-hover: #91e164;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--bg-header);
+      padding: 30px 20px 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: var(--accent);
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 1em;
+      color: var(--text-muted);
+    }
+
+    nav {
+      background-color: var(--bg-nav);
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .layout {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: var(--bg-dark);
+      padding: 20px 5vw;
+      box-sizing: border-box;
+    }
+
+    .ad-bar {
+      width: 160px;
+      background-color: #111;
+      padding: 10px;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .ad {
+      background-color: #333;
+      border: 1px solid #555;
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+
+    .main-content {
+      flex: 1;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      min-height: 600px;
+    }
+
+    /* Styles for embedded game container */
+    .game-embed-container {
+      flex: 1;
+      background-color: #274e13;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      color: #fff;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 20px;
+      font-family: "Gill Sans", sans-serif;
+    }
+
+    .button-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      width: 100%;
+      max-width: 550px;
+      box-sizing: border-box;
+    }
+
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,.6);
+      padding-bottom: 10px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 100%;
+    }
+
+    @media (max-width:480px) {
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+      .logo-text {
+        font-size: 2rem;
+      }
+    }
+
+    .c-button {
+      min-height: 50px;
+      appearance: none;
+      border: 2px solid rgba(0,0,0,.2);
+      border-radius: 8px;
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background: #6aa84f;
+    }
+
+    .btn-primary:hover {
+      background: #8fbc8f;
+      border-color: #a2d1a2;
+      transform: translateY(-2px);
+    }
+
+    .btn-alt {
+      background: #073763;
+    }
+
+    .btn-alt:hover {
+      background: #3d85c6;
+      border-color: #6f9ac4;
+      transform: translateY(-2px);
+    }
+
+    .c-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px #cbd6ee;
+    }
+
+    .c-button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+
+    .game-embed-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    footer {
+      background-color: #181818;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+      border-top: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .ad-bar {
+        display: none;
+      }
+      .layout {
+        flex-direction: column;
+        padding: 10px 2vw;
+      }
+      .main-content {
+        min-height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>History Center Unblocked Games Hub</h1>
+    <p>Play your favorite games anytime, anywhere</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <div class="layout">
+
+    <aside class="ad-bar left-ad">
+      <div class="ad">
+        <p>Left Ad Space</p>
+        <img src="https://via.placeholder.com/160x600?text=Ad+Banner" alt="Ad">
+      </div>
+    </aside>
+
+    <main class="main-content">
+    <html><head><base target="_self">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>      
+        html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;font-family:"Gill Sans",sans-serif;background:transparent}
+        .game-embed-container{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background-color:#274e13;border-radius:10px;overflow:hidden;position:relative;box-sizing:border-box;color:#fff;text-align:center}
+        .button-wrapper{display:flex;flex-direction:column;align-items:center;gap:25px;padding:20px;width:100%;max-width:550px;box-sizing:border-box}
+        .logo-text{font-family:"Gill Sans",sans-serif;font-size:2.5rem;font-weight:bold;color:#fff;text-shadow:2px 2px 5px rgba(0,0,0,.6);padding-bottom:10px}
+        .button-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;width:100%}
+        @media (max-width:480px){.button-grid{grid-template-columns:1fr}.logo-text{font-size:2rem}}
+        .c-button{min-height:50px;appearance:none;border:2px solid rgba(0,0,0,.2);border-radius:8px;color:#fff;padding:10px 15px;font-size:18px;cursor:pointer;transition:all .2s ease-in-out;text-align:center;display:flex;align-items:center;justify-content:center;font-weight:bold}
+        .btn-primary{background:#6aa84f}
+        .btn-primary:hover{background:#8fbc8f;border-color:#a2d1a2;transform:translateY(-2px)}
+        .btn-alt{background:#073763}
+        .btn-alt:hover{background:#3d85c6;border-color:#6f9ac4;transform:translateY(-2px)}
+        .c-button:focus{outline:none;box-shadow:0 0 0 4px #cbd6ee}
+        .c-button:disabled{background:#555;cursor:not-allowed}
+        .game-embed-container iframe{width:100%;height:100%;border:none}
+    </style>
+</head>	
+<html><head>
+  <style>body,html,iframe{margin:0;padding:0;height:100%;width:100%;overflow:hidden}.forceIosScrolling{overflow:scroll;-webkit-overflow-scrolling:touch}</style>
+<script src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.en.PLtFj_-5DjQ.O/m=gapi_rpc/rt=j/sv=1/d=1/ed=1/rs=AHpOoo-J85zQk73PCqZPyWTydWEIq3_4KA/cb=gapi.loaded_0?le=scs,fedcm_migration_mod" async=""></script><script src="https://apis.google.com/js/api.js?checkCookie=1" gapi_processed="true"></script></head>
+
+<body class="vsc-initialized">
+<iframe id="userHtmlFrame" frameborder="0" scrolling="yes" style="overflow: auto;">
+</iframe>
+
+<script>function loadGapi(){var loaderScript=document.createElement('script');loaderScript.setAttribute('src','https://apis.google.com/js/api.js?checkCookie=1');loaderScript.onload=function(){this.onload=function(){};loadGapiClient();};loaderScript.onreadystatechange=function(){if(this.readyState==='complete'){this.onload();}};(document.head||document.body||document.documentElement).appendChild(loaderScript);}function updateUserHtmlFrame(userHtml,enableInteraction,forceIosScrolling){var frame=document.getElementById('userHtmlFrame');if(enableInteraction){if(forceIosScrolling){var iframeParent=frame.parentElement;iframeParent.classList.add('forceIosScrolling');}else{frame.style.overflow='auto';}}else{frame.setAttribute('scrolling','no');frame.style.pointerEvents='none';}clearCookies();clearStorage();frame.contentWindow.document.open();frame.contentWindow.document.write('<base target="_blank">'+userHtml);frame.contentWindow.document.close();}function onGapiInitialized(){gapi.rpc.call('..','innerFrameGapiInitialized');gapi.rpc.register('updateUserHtmlFrame',updateUserHtmlFrame);}function loadGapiClient(){gapi.load('gapi.rpc',onGapiInitialized);}if(document.readyState=='complete'){loadGapi();}else{self.addEventListener('load',loadGapi);}function clearCookies(){var cookies=document.cookie.split(";");for(var i=0;i<cookies.length;i++){var cookie=cookies[i];var equalPosition=cookie.indexOf("=");var name=equalPosition>-1?cookie.substr(0,equalPosition):cookie;document.cookie=name+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";document.cookie=name+"=;expires=Thu, 01 Jan 1970 00:00:01 GMT ;domain=.googleusercontent.com";}}function clearStorage(){try{localStorage.clear();sessionStorage.clear();}catch(e){}}</script>
+
+
+</body></html>
+
+
+
+
+
+
+    </main>
+
+    <aside class="ad-bar right-ad">
+      <div class="ad">
+        <p>Right Ad Space</p>
+        <img src="https://via.placeholder.com/160x600?text=Ad+Banner" alt="Ad">
+      </div>
+    </aside>
+
+  </div>
+
+  <footer>
+    &copy; 2025 History Center | All rights reserved.
+  </footer>
+
+</body>
+</html>

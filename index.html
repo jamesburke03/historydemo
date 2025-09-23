@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The American Yawp</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'EB Garamond', serif;
+      background-color: #f9f9f9;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    /* Menu button styles */
+    .menu-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background-color: rgba(0, 0, 0, 0.7);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      font-size: 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(20, 20, 20, 0.97);
+      color: white;
+      display: none;
+      z-index: 1000;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu-overlay.active {
+      display: flex;
+    }
+
+    .menu-overlay a {
+      color: white;
+      font-size: 2rem;
+      text-decoration: none;
+      margin: 20px 0;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .menu-overlay a:hover {
+      color: #b11919;
+    }
+
+    .menu-overlay .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: url("http://www.americanyawp.com/test/wp-content/uploads/2018/04/cropped-testsite.jpg") center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .extras {
+      margin: 30px 0;
+      font-size: 1.1rem;
+    }
+
+    .extras a {
+      display: inline-block;
+      margin-right: 15px;
+      color: #b11919;
+      text-decoration: underline;
+    }
+
+    .volumes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .volume {
+      flex: 1 1 400px;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .volume h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .volume ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .volume li {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .volume li a {
+      text-decoration: none;
+      color: #222;
+    }
+
+    .volume li a:hover {
+      color: #7c1c1c;
+    }
+
+    .epigram {
+      text-align: center;
+      margin: 60px 20px 30px;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #444;
+    }
+
+    .footer-links {
+      text-align: center;
+      margin: 40px 0;
+      font-size: 1.1rem;
+    }
+
+    .footer-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .footer-links a:hover {
+      color: #b11919;
+    }
+
+    .footer {
+      background: #111;
+      color: #ccc;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.9rem;
+    }
+
+    .footer img {
+      max-height: 40px;
+      margin: 10px;
+    }
+
+    /* Styles for main.html content */
+    :root {
+      --bg-dark: #1c1c1c;
+      --bg-card: #2a2a2a;
+      --bg-header: #262626;
+      --bg-nav: #1a1a1a;
+      --text-light: #f5f5f5;
+      --text-muted: #bbb;
+      --accent: #7ec850;
+      --accent-hover: #91e164;
+    }
+
+    .games-body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .games-header {
+      background-color: var(--bg-header);
+      padding: 30px 20px 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .games-header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: var(--accent);
+    }
+
+    .games-header p {
+      margin-top: 5px;
+      font-size: 1em;
+      color: var(--text-muted);
+    }
+
+    #searchInput {
+      padding: 10px;
+      width: 60%;
+      max-width: 400px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: none;
+      background-color: #333;
+      color: #f5f5f5;
+      margin-top: 20px;
+    }
+
+    #searchInput::placeholder {
+      color: #aaa;
+    }
+
+    .games-nav {
+      background-color: var(--bg-nav);
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .games-nav a {
+      color: var(--text-muted);
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .games-nav a:hover {
+      color: var(--accent);
+    }
+
+    .games-layout {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .games-ad-bar {
+      width: 160px;
+      background-color: #111;
+      padding: 10px;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .games-ad {
+      background-color: #333;
+      border: 1px solid #555;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 0.9em;
+      width: 160px;
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .games-main-content {
+      flex: 1;
+    }
+
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      padding: 30px 5vw;
+    }
+
+    .game-card {
+      background-color: var(--bg-card);
+      border: 1px solid #444;
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .game-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(0, 255, 100, 0.3);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .game-card h3 {
+      margin: 15px 0 10px;
+      font-size: 1.1em;
+    }
+
+    .game-card a {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 16px;
+      background-color: var(--accent);
+      color: #111;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .game-card a:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .games-footer {
+      background-color: #181818;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+      border-top: 1px solid #333;
+    }
+
+    @media (max-width: 900px) {
+      .games-ad-bar {
+        display: none;
+      }
+
+      .games-layout {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.1rem; }
+    }
+
+    /* Hide/show content based on current view */
+    .home-content {
+      display: block;
+    }
+
+    .games-content {
+      display: none;
+    }
+
+    .games-content.active {
+      display: block;
+    }
+
+    .home-content.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu Button -->
+  <button class="menu-button" onclick="toggleMenu()">☰ Menu</button>
+
+  <!-- Menu Overlay -->
+  <div class="menu-overlay" id="menuOverlay">
+    <button class="close-btn" onclick="toggleMenu()">×</button>
+    <a onclick="showHome()">Home</a>
+    <a onclick="loadGamesContent()">Games</a>
+    <a onclick="alert('This is a demo.')">About</a>
+  </div>
+
+  <!-- Home Content -->
+  <div id="homeContent" class="home-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>The American Yawp</h1>
+      <p>A Massively Collaborative Open U.S. History Textbook</p>
+    </section>
+    <!-- Main Content -->
+    <div class="content" id="mainContent">
+      <div class="extras">
+        <a href="http://www.americanyawp.com/text/updates/">*Update Log*</a>
+        <a href="https://www.sup.org/books/title/?id=27850">SUP Edition</a>
+        <a href="https://www.sup.org/books/title/?id=27850">Vol. I</a>
+        <a href="https://www.sup.org/books/title/?id=30476">Vol. II</a>
+        <a href="http://www.americanyawp.com/text/introduction/">Introduction</a>
+        <a href="http://www.americanyawp.com/reader.html">Primary Source Reader</a>
+      </div>
+
+      <div class="volumes">
+        <!-- Volume I -->
+        <div class="volume">
+          <h2>Volume I: Before 1877</h2>
+          <ul>
+            <li><a href="https://www.americanyawp.com/text/01-the-new-world/">Indigenous America</a><span>1</span></li>
+            <li><a href="https://www.americanyawp.com/text/02-colliding-cultures/">Colliding Cultures</a><span>2</span></li>
+            <li><a href="https://www.americanyawp.com/text/03-british-north-america/">British North America</a><span>3</span></li>
+            <li><a href="https://www.americanyawp.com/text/04-colonial-society/">Colonial Society</a><span>4</span></li>
+            <li><a href="https://www.americanyawp.com/text/05-the-american-revolution/">The American Revolution</a><span>5</span></li>
+            <li><a href="https://www.americanyawp.com/text/06-a-new-nation/">A New Nation</a><span>6</span></li>
+            <li><a href="https://www.americanyawp.com/text/07-the-early-republic/">The Early Republic</a><span>7</span></li>
+            <li><a href="https://www.americanyawp.com/text/08-the-market-revolution/">The Market Revolution</a><span>8</span></li>
+            <li><a href="https://www.americanyawp.com/text/09-democracy-in-america/">Democracy in America</a><span>9</span></li>
+            <li><a href="https://www.americanyawp.com/text/10-religion-and-reform/">Religion and Reform</a><span>10</span></li>
+            <li><a href="https://www.americanyawp.com/text/11-the-cotton-revolution/">The Cotton Revolution</a><span>11</span></li>
+            <li><a href="https://www.americanyawp.com/text/12-manifest-destiny/">Manifest Destiny</a><span>12</span></li>
+            <li><a href="https://www.americanyawp.com/text/13-the-sectional-crisis/">The Sectional Crisis</a><span>13</span></li>
+            <li><a href="https://www.americanyawp.com/text/14-the-civil-war/">The Civil War</a><span>14</span></li>
+            <li><a href="https://www.americanyawp.com/text/15-reconstruction/">Reconstruction</a><span>15</span></li>
+          </ul>
+        </div>
+
+        <!-- Volume II -->
+        <div class="volume">
+          <h2>Volume II: After 1877</h2>
+          <ul>
+            <li><a href="https://www.americanyawp.com/text/16-capital-and-labor/">Capital and Labor</a><span>16</span></li>
+            <li><a href="https://www.americanyawp.com/text/17-conquering-the-west/">The West</a><span>17</span></li>
+            <li><a href="https://www.americanyawp.com/text/18-industrial-america/">Life in Industrial America</a><span>18</span></li>
+            <li><a href="https://www.americanyawp.com/text/19-american-empire/">American Empire</a><span>19</span></li>
+            <li><a href="https://www.americanyawp.com/text/20-the-progressive-era/">The Progressive Era</a><span>20</span></li>
+            <li><a href="https://www.americanyawp.com/text/21-world-war-i/">World War I</a><span>21</span></li>
+            <li><a href="https://www.americanyawp.com/text/22-the-twenties/">The New Era</a><span>22</span></li>
+            <li><a href="http://www.americanyawp.com/text/23-the-great-depression/">The Great Depression</a><span>23</span></li>
+            <li><a href="https://www.americanyawp.com/text/24-world-war-ii/">World War II</a><span>24</span></li>
+            <li><a href="https://www.americanyawp.com/text/25-the-cold-war/">The Cold War</a><span>25</span></li>
+            <li><a href="https://www.americanyawp.com/text/26-the-affluent-society/">The Affluent Society</a><span>26</span></li>
+            <li><a href="https://www.americanyawp.com/text/27-the-sixties/">The Sixties</a><span>27</span></li>
+            <li><a href="https://www.americanyawp.com/text/28-the-unraveling/">The Unraveling</a><span>28</span></li>
+            <li><a href="https://www.americanyawp.com/text/29-the-triumph-of-the-right/">The Triumph of the Right</a><span>29</span></li>
+            <li><a href="https://www.americanyawp.com/text/30-the-recent-past/">The Recent Past</a><span>30</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Epigram -->
+      <div class="epigram">
+        <p>Yawp \yôp\ <i>n</i>: 1: a raucous noise 2: rough vigorous language</p>
+        <p>"I sound my barbaric yawp over the roofs of the world." – Walt Whitman, 1855.</p>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="footer-links">
+        <a href="http://www.americanyawp.com/text/about">About</a> |
+        <a href="http://www.americanyawp.com/text/contributors">Contributors</a> |
+        <a href="http://www.americanyawp.com/text/press">Press</a> |
+        <a href="http://www.americanyawp.com/text/teaching-materials/">Teaching Materials</a> |
+        <a href="http://www.americanyawp.com/text/finances/">Who Pays for This?</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>
+        <a href="https://www.sup.org"><img src="http://americanyawp.com/images/sup_logo_red.png" alt="SUP"></a>
+        <a href="http://creativecommons.org/licenses/by-sa/4.0/"><img src="http://americanyawp.com/images/cc-by-sa_white.png" alt="CC License"></a>
+      </div>
+      <p>&copy; 2025 The American Yawp. Content licensed under CC BY-SA 4.0</p>
+    </footer>
+  </div>
+
+  <!-- Games Content Container -->
+  <div id="gamesContent" class="games-content">
+    <div class="games-body">
+      <header class="games-header">
+        <h1>History Center Unblocked Games Hub</h1>
+        <p>Play your favorite games anytime, anywhere</p>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search games..."
+          onkeyup="filterGames()"
+        />
+      </header>
+
+      <nav class="games-nav">
+        <a href="#" onclick="showHome()">Home</a>
+        <a href="about.html">About Us</a>
+      </nav>
+
+      <div class="games-layout">
+        <aside class="games-ad-bar left-ad">
+          <div class="games-ad" id="gamesLeftAd">
+            <!-- Ad will be loaded here -->
+          </div>
+        </aside>
+
+        <main class="games-main-content">
+          <div class="games-container">
+            <!-- Game Cards -->
+            <div class="game-card">
+              <img src="drift-hunters.jpg" alt="Drift Hunters">
+              <h3>Drift Hunters</h3>
+              <a href="drifthunters.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="growagarden.png" alt="Grow A Garden">
+              <h3>Grow A Garden</h3>
+              <a href="growagarden.html">Play Now</a>
+            </div> 
+             <div class="game-card">
+              <img src="shellshockers.jpg" alt="Shell Shockers">
+              <h3>Shell Shockers</h3>
+              <a href="shellshockers.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="run3.png" alt="Run 3">
+              <h3>Run 3</h3>
+              <a href="run3.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="stealbrainrot.png" alt="Steal BrainRot">
+              <h3>Steal BrainRot</h3>
+              <a href="stealbrainrot.html">Play Now</a>
+            </div> 
+            <div class="game-card">
+              <img src="tiny-fishing.png" alt="Tiny Fishing">
+              <h3>Tiny Fishing</h3>
+              <a href="tinyfishing.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="moto.png">
+              <h3>Moto X3M </h3>
+              <a href="moto.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="amoungus.png">
+              <h3>Among Us </h3>
+              <a href="amoungus.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="snowrider.png" alt="Snow Rider">
+              <h3>Snow Rider</h3>
+              <a href="snowrider.html">Play Now</a>
+            </div>
+            <div class="game-card">
+              <img src="mariobros.png" alt="Mario Bros">
+              <h3>Mario Bros</h3>
+              <a href="mariobros.html">Play Now</a>
+            </div> 
+              <div class="game-card">
+              <img src="backrooms.jpg">
+              <h3>Backrooms</h3>
+              <a href="backrooms.html">Play Now</a>
+            </div> 
+            <div class="game-card">
+              <img src="basketballstars.png" alt="Basketball Stars">
+              <h3>Basketball Stars</h3>
+              <a href="basketballstars.html">Play Now</a>
+            </div>
+             <div class="game-card">
+              <img src="driftboss.jpg" alt="Basketball Stars">
+              <h3>Drift Boss</h3>
+              <a href="driftboss.html">Play Now</a>
+            </div>
+            <!-- Add more games as needed -->
+          </div>
+        </main>
+
+        <aside class="games-ad-bar right-ad">
+          <div class="games-ad" id="gamesRightAd">
+            <!-- Ad will be loaded here -->
+          </div>
+        </aside>
+      </div>
+
+      <footer class="games-footer">
+        &copy; 2025 History Center | All rights reserved.
+      </footer>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Ad loading function
+    function loadGameAds() {
+      // Set global ad options
+      window.atOptions = {
+        'key': '1a68f46786421a6f5e99a2de350cc4a3',
+        'format': 'iframe',
+        'height': 600,
+        'width': 160,
+        'params': {}
+      };
+
+      // Load left ad
+      const leftAdContainer = document.getElementById('gamesLeftAd');
+      if (leftAdContainer) {
+        leftAdContainer.innerHTML = '';
+        
+        const leftScript = document.createElement('script');
+        leftScript.type = 'text/javascript';
+        leftScript.src = '//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js';
+        leftScript.onload = function() {
+          console.log('Left ad loaded successfully');
+        };
+        leftScript.onerror = function() {
+          leftAdContainer.innerHTML = '<p style="color: #666; text-align: center;">Ad Loading...</p>';
+        };
+        leftAdContainer.appendChild(leftScript);
+      }
+
+      // Load right ad (with a slight delay to avoid conflicts)
+      setTimeout(function() {
+        // Reset atOptions for right ad
+        window.atOptions = {
+          'key': '1a68f46786421a6f5e99a2de350cc4a3',
+          'format': 'iframe',
+          'height': 600,
+          'width': 160,
+          'params': {}
+        };
+        
+        const rightAdContainer = document.getElementById('gamesRightAd');
+        if (rightAdContainer) {
+          rightAdContainer.innerHTML = '';
+          
+          const rightScript = document.createElement('script');
+          rightScript.type = 'text/javascript';
+          rightScript.src = '//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js';
+          rightScript.onload = function() {
+            console.log('Right ad loaded successfully');
+          };
+          rightScript.onerror = function() {
+            rightAdContainer.innerHTML = '<p style="color: #666; text-align: center;">Ad Loading...</p>';
+          };
+          rightAdContainer.appendChild(rightScript);
+        }
+      }, 1000);
+    }
+
+    function toggleMenu() {
+      document.getElementById("menuOverlay").classList.toggle("active");
+    }
+
+    function showHome() {
+      document.getElementById("homeContent").classList.remove("hidden");
+      document.getElementById("gamesContent").classList.remove("active");
+      toggleMenu();
+    }
+
+    function loadGamesContent() {
+      document.getElementById("homeContent").classList.add("hidden");
+      document.getElementById("gamesContent").classList.add("active");
+      
+      // Load ads after content is shown
+      setTimeout(loadGameAds, 100);
+      
+      toggleMenu();
+    }
+
+    // Old function for backward compatibility
+    function loadMainHtml() {
+      loadGamesContent();
+    }
+
+    // Search functionality
+    function filterGames() {
+      const input = document.getElementById("searchInput");
+      if (!input) return;
+      
+      const searchTerm = input.value.toLowerCase();
+      const cards = document.querySelectorAll(".game-card");
+
+      cards.forEach(card => {
+        const title = card.querySelector("h3").textContent.toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
