@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>History Center</title>
+  <style>
+    :root {
+      --bg-dark: #1c1c1c;
+      --bg-card: #2a2a2a;
+      --bg-header: #262626;
+      --bg-nav: #1a1a1a;
+      --text-light: #f5f5f5;
+      --text-muted: #bbb;
+      --accent: #7ec850;
+      --accent-hover: #91e164;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--bg-header);
+      padding: 30px 20px 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: var(--accent);
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 1em;
+      color: var(--text-muted);
+    }
+
+    nav {
+      background-color: var(--bg-nav);
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .layout {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: var(--bg-dark);
+      padding: 20px 5vw;
+      box-sizing: border-box;
+    }
+
+    .ad-bar {
+      width: 160px;
+      background-color: #111;
+      padding: 10px;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .ad {
+      background-color: #333;
+      border: 1px solid #555;
+      padding: 0;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 0.9em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 600px;
+    }
+
+    .main-content {
+      flex: 1;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      min-height: 600px;
+      margin: 0 20px;
+    }
+
+    .top-banner-ad {
+      width: 100%;
+      height: 90px;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .top-banner-ad iframe {
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Styles for embedded game container */
+    .game-embed-container {
+      flex: 1;
+      background-color: #274e13;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      color: #fff;
+      text-align: center;
+      font-family: "Gill Sans", sans-serif;
+      padding: 20px;
+    }
+
+    .game-embed-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Button wrapper styles for game embeds */
+    .button-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      width: 100%;
+      max-width: 550px;
+      box-sizing: border-box;
+    }
+
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,.6);
+      padding-bottom: 10px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 100%;
+    }
+
+    @media (max-width:480px) {
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+      .logo-text {
+        font-size: 2rem;
+      }
+    }
+
+    .c-button {
+      min-height: 50px;
+      appearance: none;
+      border: 2px solid rgba(0,0,0,.2);
+      border-radius: 8px;
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background: #6aa84f;
+    }
+
+    .btn-primary:hover {
+      background: #8fbc8f;
+      border-color: #a2d1a2;
+      transform: translateY(-2px);
+    }
+
+    .btn-alt {
+      background: #073763;
+    }
+
+    .btn-alt:hover {
+      background: #3d85c6;
+      border-color: #6f9ac4;
+      transform: translateY(-2px);
+    }
+
+    .c-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px #cbd6ee;
+    }
+
+    .c-button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+
+    footer {
+      background-color: #181818;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+      border-top: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .ad-bar {
+        display: none;
+      }
+      .layout {
+        flex-direction: column;
+        padding: 10px 2vw;
+      }
+      .main-content {
+        margin: 0;
+        min-height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>History Center Unblocked Games Hub</h1>
+    <p>Play your favorite games anytime, anywhere</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <div class="layout">
+
+    <aside class="ad-bar left-ad">
+      <div class="ad">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js"></script>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-banner-ad">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '9717bb3a63d1343429ea100cc8cf8b58',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/9717bb3a63d1343429ea100cc8cf8b58/invoke.js"></script>
+      </div>
+
+      <div id="gameContainer" class="game-embed-container">
+        <!-- PASTE YOUR GAME EMBED CODE HERE (without <body> tags) -->
+        <!-- Just paste the content between your game's <body> tags, like the div and script -->
+        <div id="gameContainer" class="game-embed-container">
+        <div id="buttonWrapper" class="button-wrapper">
+            <div class="logo-text">History Center</div>
+            <div class="button-grid">
+                <button id="playPrimaryInline" class="c-button btn-primary">PLAY HERE</button>
+                <button id="playAltInline" class="c-button btn-alt">PLAY HERE (Alt)</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const gameContainer = document.getElementById('gameContainer');
+        const buttonWrapper = document.getElementById('buttonWrapper');
+        const googleScriptUrl = "https://script.google.com/macros/s/AKfycbxa3OjBw8KWer3YhEXl1wxoe1uQKNo-wgGuqPO3NTndX566TTs10-ioXopEPitTvE-B/exec";
+        const gameXmlUrl = "https://cdn.jsdelivr.net/gh/gertdoro/SQLite4Unity3d@8516fc0bd1d2be662ca484f5dc506268b24763ef/Example/Assets/snowball.xml";
+        const faviconUrl = "https://ssl.gstatic.com/classroom/favicon.png";
+        const pageTitle = "classroom.google.com";
+        const playPrimaryInlineBtn = document.getElementById('playPrimaryInline');
+        const playPrimaryFullscreenBtn = document.getElementById('playPrimaryFullscreen');
+        playPrimaryInlineBtn.addEventListener('click', () => {
+            gameContainer.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.src = googleScriptUrl;
+            gameContainer.appendChild(iframe);
+        });
+        playPrimaryFullscreenBtn.addEventListener('click', () => {
+            const newWindow = window.open('', '_blank');
+            if (!newWindow) return alert("Please allow pop-ups.");
+            newWindow.document.write(`<!DOCTYPE html><html><head><title>${pageTitle}</title><link rel="icon" href="${faviconUrl}"><style>body,html{margin:0;padding:0;height:100%;width:100%;overflow:hidden;}iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}</style></head><body><iframe src="${googleScriptUrl}" allowfullscreen></iframe></body></html>`);
+            newWindow.document.close();
+        });
+        const playAltInlineBtn = document.getElementById('playAltInline');
+        const playAltFullscreenBtn = document.getElementById('playAltFullscreen');
+        let readyHtmlContent = null;
+        async function prepareGameContent() {
+            try {
+                const resp = await fetch(gameXmlUrl);
+                if (!resp.ok) throw new Error(`Failed to load XML: ${resp.status} ${resp.statusText}`);
+                const xmlText = await resp.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+                const contentNode = xmlDoc.querySelector("Content");
+                if (!contentNode) throw new Error("<Content> not found in XML");
+                const htmlContent = contentNode.textContent;
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+                if (!doc.head) {
+                    const headEl = doc.createElement('head');
+                    doc.documentElement.insertBefore(headEl, doc.documentElement.firstChild);
+                }
+                let titleTag = doc.querySelector('title');
+                if (!titleTag) {
+                    titleTag = doc.createElement('title');
+                    doc.head.appendChild(titleTag);
+                }
+                titleTag.textContent = pageTitle;
+                const faviconLink = doc.createElement('link');
+                faviconLink.rel = 'icon';
+                faviconLink.href = faviconUrl;
+                doc.head.appendChild(faviconLink);
+                const xmlBase = gameXmlUrl.substring(0, gameXmlUrl.lastIndexOf('/') + 1);
+                let discoveredBuildUrl = null;
+                try {
+                    const bMatch = htmlContent.match(/(?:const|var|let)\s+buildUrl\s*=\s*['"]([^'"]+)['"]/i);
+                    if (bMatch) discoveredBuildUrl = bMatch[1];
+                    if (!discoveredBuildUrl) {
+                        const loaderMatch = htmlContent.match(/(?:const|var|let)\s+loaderUrl\s*=\s*['"]([^'"]+)['"]/i);
+                        if (loaderMatch) {
+                            const lu = loaderMatch[1];
+                            discoveredBuildUrl = lu.substring(0, lu.lastIndexOf('/'));
+                        }
+                    }
+                } catch (e) {}
+                const effectiveBase = discoveredBuildUrl || xmlBase;
+                const injectedHost = JSON.stringify(window.location.hostname);
+                const injectedHref = JSON.stringify(window.location.href);
+                const shimCode = `
+(function(){
+  const SHIM_DEBUG = false;
+  const injectedDomain = ${injectedHost};
+  const injectedHref = ${injectedHref};
+  const BASE_FOR_REL = ${JSON.stringify(effectiveBase)};
+  function dbg(){ if(SHIM_DEBUG && console && console.log) console.log('[SHIM]', ...arguments); }
+  const AD_HOSTS = ['api.gamemonetize.com','gamemonetize.com','gamedistribution.com','ads.gamedistribution.com'];
+  function isAdHost(url){ try { return AD_HOSTS.some(h => url.indexOf(h) !== -1); } catch(e) { return false; } }
+  function absolutize(url){ try { new URL(url); return url; } catch(e){ try { return new URL(url, BASE_FOR_REL).href; } catch(e2){ return url; } } }
+  function patchDomainParamToUrl(u){ try { if (!(u instanceof URL)) u = new URL(u, location.href); const cur = u.searchParams.get('domain'); if(!cur || cur.trim()==='' || cur.toLowerCase().startsWith('blob')) { u.searchParams.set('domain', injectedDomain); dbg('patched domain ->', injectedDomain, 'for', u.toString()); } return u.toString(); } catch(e){ return u.toString ? u.toString() : u; } }
+  const _fetch = window.fetch;
+  window.fetch = function(input, init){ try { let urlStr = null; if (typeof input === 'string') urlStr = input; else if (input instanceof Request) urlStr = input.url; if (urlStr) { try { new URL(urlStr); } catch(e){ urlStr = absolutize(urlStr); } if (isAdHost(urlStr)) { const patched = patchDomainParamToUrl(new URL(urlStr, location.href)); input = (typeof input === 'string') ? patched : new Request(patched, input); } else { input = (typeof input === 'string') ? urlStr : new Request(urlStr, input); } } } catch(e){ dbg('fetch shim err', e); } return _fetch.call(this, input, init); };
+  try { const _open = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function(method, url, async, user, pass){ try { let finalUrl = url; try { new URL(finalUrl); } catch(e){ finalUrl = absolutize(finalUrl); } if (isAdHost(finalUrl)) finalUrl = patchDomainParamToUrl(new URL(finalUrl, location.href)); return _open.call(this, method, finalUrl, async !== false, user, pass); } catch(e){ return _open.apply(this, arguments); } }; } catch(e){ dbg('xhr override failed', e); }
+  try { const imgDesc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src') || {}; if (imgDesc && typeof imgDesc.set === 'function') { Object.defineProperty(HTMLImageElement.prototype, 'src', { set: function(v){ try { if (v) { try { new URL(v); } catch(e){ v = absolutize(v); } if (isAdHost(v)) v = patchDomainParamToUrl(new URL(v, location.href)); } } catch(e){ dbg('img.src shim err', e); } return imgDesc.set.call(this, v); }, get: function(){ return imgDesc.get.call(this); }, configurable:true, enumerable:true }); } } catch(e){ dbg('img.src override failed', e); }
+  try { const scrDesc = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src') || {}; if (scrDesc && typeof scrDesc.set === 'function') { Object.defineProperty(HTMLScriptElement.prototype, 'src', { set: function(v){ try { if (v) { try { new URL(v); } catch(e){ v = absolutize(v); } if (isAdHost(v)) v = patchDomainParamToUrl(new URL(v, location.href)); } } catch(e){ dbg('script.src shim err', e); } return scrDesc.set.call(this, v); }, get: function(){ return scrDesc.get.call(this); }, configurable:true, enumerable:true }); } } catch(e){ dbg('script.src override failed', e); }
+  try { if (navigator && typeof navigator.sendBeacon === 'function') { const _sb = navigator.sendBeacon; navigator.sendBeacon = function(url, data){ try { if (typeof url === 'string') { try { new URL(url); } catch(e){ url = absolutize(url); } if (isAdHost(url)) url = patchDomainParamToUrl(new URL(url, location.href)); } } catch(e){ dbg('sendBeacon shim err', e); } return _sb.call(this, url, data); }; } } catch(e){ dbg('sendBeacon override failed', e); }
+  try { Object.defineProperty(document, 'referrer', { get: function(){ return injectedHref; }, configurable:true }); } catch(e){ try { document.referrer = injectedHref; } catch(e){ dbg('referrer assign failed'); } }
+  (async function(){ const blobCache = new Map(); async function fetchArrayBuffer(url) { const r = await fetch(url, { credentials: 'same-origin' }); if (!r.ok) throw new Error('fetch failed ' + r.status); return await r.arrayBuffer(); } async function toBlobUrl(url) { if (blobCache.has(url)) return blobCache.get(url); try { const ab = await fetchArrayBuffer(url); const mime = /\\.wasm$|\\.unityweb$/.test(url) ? 'application/wasm' : 'application/octet-stream'; const b = URL.createObjectURL(new Blob([ab], { type: mime })); blobCache.set(url, b); return b; } catch(e){ dbg('toBlobUrl failed', e); return url; } } function makeAbsoluteIfNeeded(u) { try { new URL(u); return u; } catch(e){ try { return new URL(u, BASE_FOR_REL).href; } catch(e2){ return u; } } } async function mapUnityConfig(configOrUrl){ let cfg = null; if (typeof configOrUrl === 'string') { const abs = makeAbsoluteIfNeeded(configOrUrl); const r = await fetch(abs, { credentials: 'same-origin' }); cfg = await r.json(); } else { cfg = Object.assign({}, configOrUrl); } try { if (cfg.streamingAssetsUrl) { if (cfg.streamingAssetsUrl === "StreamingAssets" || cfg.streamingAssetsUrl === "StreamingAssets/") { cfg.streamingAssetsUrl = new URL('StreamingAssets/', BASE_FOR_REL).toString(); } else { cfg.streamingAssetsUrl = makeAbsoluteIfNeeded(cfg.streamingAssetsUrl); } } } catch(e){ dbg('streamingAssets fix fail', e); } const keys = ['dataUrl','frameworkUrl','codeUrl','memoryUrl','symbolsUrl','wasmCodeUrl','wasmFrameworkUrl']; for (const k of keys) { if (cfg[k] && typeof cfg[k] === 'string') { const abs = makeAbsoluteIfNeeded(cfg[k]); if (/\\.wasm$|\\.unityweb$|\\.data$|\\.mem$|\\.symbols$/.test(abs)) { try { cfg[k] = await toBlobUrl(abs); } catch(e){ cfg[k] = abs; } } else { cfg[k] = abs; } } } return cfg; } let originalCreate = null; try { Object.defineProperty(window, 'createUnityInstance', { configurable: true, enumerable: true, get: function(){ return async function(container, config, onProgress){ const start = Date.now(); while (!originalCreate && Date.now() - start < 8000) { await new Promise(r => setTimeout(r,25)); } let mapped = null; try { mapped = await mapUnityConfig(config); } catch(e){ dbg('mapUnityConfig error', e); mapped = config; } if (originalCreate) return originalCreate(container, mapped || config, onProgress); if (typeof window.__createUnityInstance_orig === 'function') return window.__createUnityInstance_orig(container, mapped || config, onProgress); throw new Error('createUnityInstance not found'); }; }, set: function(fn){ if (typeof fn === 'function') { originalCreate = fn; window.__createUnityInstance_orig = fn; dbg('captured createUnityInstance'); } } }); } catch(e){ dbg('defineProperty(createUnityInstance) failed', e); (function poll(){ const cur = window.createUnityInstance; setTimeout(() => { if (window.createUnityInstance !== cur && typeof window.createUnityInstance === 'function') { originalCreate = window.createUnityInstance; window.__createUnityInstance_orig = originalCreate; window.createUnityInstance = async function(container, config, onProgress){ let mapped = null; try { mapped = await mapUnityConfig(config); } catch(e){ mapped = config; } return originalCreate(container, mapped || config, onProgress); }; dbg('captured createUnityInstance via poll'); } else poll(); }, 50); })(); try { window.createUnityInstance = async function(container, config, onProgress){ let mapped = null; try { mapped = await mapUnityConfig(config); } catch(e){ mapped = config; } if (typeof window.__createUnityInstance_orig === 'function') return window.__createUnityInstance_orig(container, mapped || config, onProgress); throw new Error('createUnityInstance not ready'); }; } catch(e){} } dbg('Unity interceptor ready'); })();
+  dbg('shim injected');
+})();`;
+                const shimScriptTag = doc.createElement('script');
+                shimScriptTag.textContent = shimCode;
+                doc.head.prepend(shimScriptTag);
+                const baseTag = doc.createElement('base');
+                baseTag.href = effectiveBase;
+                doc.head.prepend(baseTag);
+                readyHtmlContent = doc.documentElement.outerHTML;
+            } catch (err) {
+                gameContainer.innerHTML = `<div style="color:red;padding:20px;">Error: ${err.message}</div>`;
+                playAltInlineBtn.disabled = true;
+                playAltFullscreenBtn.disabled = true;
+            }
+        }
+        prepareGameContent();
+        function launchAltGame(isInline) {
+            if (!readyHtmlContent) return alert('Game is not ready yet. Please wait.');
+            const blob = new Blob([readyHtmlContent], { type: 'text/html' });
+            const gameUrl = URL.createObjectURL(blob);
+            if (isInline) {
+                gameContainer.innerHTML = '';
+                const iframe = document.createElement('iframe');
+                iframe.src = gameUrl;
+                gameContainer.appendChild(iframe);
+            } else {
+                const newWin = window.open(gameUrl, '_blank');
+                if (!newWin) alert('Please allow popups for this site.');
+            }
+        }
+        playAltInlineBtn.addEventListener('click', () => launchAltGame(true));
+        playAltFullscreenBtn.addEventListener('click', () => launchAltGame(false));
+    </script>
+        
+
+
+
+
+
+
+          
+        
+      </div>
+    </main>
+
+    <aside class="ad-bar right-ad">
+      <div class="ad">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js"></script>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer>
+    &copy; 2025 History Center | All rights reserved.
+  </footer>
+
+  <!-- Auto-refresh script for ads only -->
+  <script>
+    function refreshAdsOnly() {
+      // Create new ad containers with fresh timestamps
+      const leftAd = document.querySelector('.left-ad .ad');
+      const rightAd = document.querySelector('.right-ad .ad');
+      const topBanner = document.querySelector('.top-banner-ad');
+      
+      // Refresh left sidebar ad
+      if (leftAd) {
+        leftAd.innerHTML = '';
+        const leftScript1 = document.createElement('script');
+        leftScript1.innerHTML = `
+          atOptions = {
+            'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        `;
+        const leftScript2 = document.createElement('script');
+        leftScript2.src = `//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js?t=${Date.now()}`;
+        leftAd.appendChild(leftScript1);
+        leftAd.appendChild(leftScript2);
+      }
+
+      // Refresh right sidebar ad (small delay to prevent conflicts)
+      setTimeout(() => {
+        if (rightAd) {
+          rightAd.innerHTML = '';
+          const rightScript1 = document.createElement('script');
+          rightScript1.innerHTML = `
+            atOptions = {
+              'key' : '1a68f46786421a6f5e99a2de350cc4a3',
+              'format' : 'iframe',
+              'height' : 600,
+              'width' : 160,
+              'params' : {}
+            };
+          `;
+          const rightScript2 = document.createElement('script');
+          rightScript2.src = `//www.highperformanceformat.com/1a68f46786421a6f5e99a2de350cc4a3/invoke.js?t=${Date.now()}`;
+          rightAd.appendChild(rightScript1);
+          rightAd.appendChild(rightScript2);
+        }
+      }, 500);
+
+      // Refresh top banner ad (larger delay)
+      setTimeout(() => {
+        if (topBanner) {
+          topBanner.innerHTML = '';
+          const topScript1 = document.createElement('script');
+          topScript1.innerHTML = `
+            atOptions = {
+              'key' : '9717bb3a63d1343429ea100cc8cf8b58',
+              'format' : 'iframe',
+              'height' : 90,
+              'width' : 728,
+              'params' : {}
+            };
+          `;
+          const topScript2 = document.createElement('script');
+          topScript2.src = `//www.highperformanceformat.com/9717bb3a63d1343429ea100cc8cf8b58/invoke.js?t=${Date.now()}`;
+          topBanner.appendChild(topScript1);
+          topBanner.appendChild(topScript2);
+        }
+      }, 1000);
+      
+      console.log('Ads refreshed at:', new Date().toLocaleTimeString());
+    }
+
+    // Refresh ads every 30 seconds (30000 milliseconds)
+    setTimeout(() => {
+      setInterval(refreshAdsOnly, 30000);
+      console.log('Ad refresh cycle started - ads will refresh every 30 seconds');
+    }, 5000); // Wait 5 seconds after initial load before starting the refresh cycle
+  </script>
+
+</body>
+</html>
